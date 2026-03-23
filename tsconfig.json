@@ -1,8 +1,21 @@
 {
-  "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "types": ["jest"]
+    "jsx": "react-native",
+    "esModuleInterop": true,
+    "strict": false,
+    "types": ["jest"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "lib": ["es2017"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["**/node_modules", "**/Pods"]
+  "exclude": ["node_modules", "android", "ios"]
 }
