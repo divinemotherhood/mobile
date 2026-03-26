@@ -28,14 +28,17 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to let you select profile images.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera to let you take profile photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -55,5 +58,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Larken-Medium.otf</string>
+		<string>IS-Bold.ttf</string>
+		<string>IS-Medium.ttf</string>
+		<string>IS-Regular.ttf</string>
+		<string>IS-SemiBold.ttf</string>
+		<string>Larken-Bold.ttf</string>
+		<string>Larken-ExtraBold.ttf</string>
+		<string>Larken-Light.ttf</string>
+		<string>Larken-Regular.ttf</string>
+	</array>
 </dict>
 </plist>

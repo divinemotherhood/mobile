@@ -4,10 +4,18 @@
 
 export const Typography = {
   fontFamily: {
-    regular: 'InstrumentSans-Regular',
-    medium: 'InstrumentSans-Medium',
-    semibold: 'InstrumentSans-SemiBold',
-    bold: 'InstrumentSans-Bold',
+    regular: 'IS-Regular',
+    medium: 'IS-Medium',
+    semibold: 'IS-SemiBold',
+    bold: 'IS-Bold',
+    'IS-Regular': 'IS-Regular',
+    'IS-Medium': 'IS-Medium',
+    'IS-SemiBold': 'IS-SemiBold',
+    'IS-Bold': 'IS-Bold',
+    'Larken-Regular': 'Larken Regular',
+    'Larken-Medium': 'Larken Medium',
+    'Larken-SemiBold': 'Larken SemiBold',
+    'Larken-Bold': 'Larken-Bold',
   },
 
   fontSize: {
@@ -18,7 +26,9 @@ export const Typography = {
     xl: 20,
     xxl: 24,
     xxxl: 32,
+    xxxxl: 38,
     display: 40,
+    larkenText: 38,
   },
 
   lineHeight: {
@@ -26,12 +36,5 @@ export const Typography = {
     normal: 1.5,
     relaxed: 1.75,
     loose: 2,
-  },
-
-  fontWeight: {
-    regular: '400' as const,
-    medium: '500' as const,
-    semibold: '600' as const,
-    bold: '700' as const,
   },
 };

@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useAuthStore } from '../../store';
 import AppLogo from '../../assets/images/app_logo_with_text.svg';
 import Text from '../../components/ui/Text/Text';
 import { Colors } from '../../config/colors';
@@ -21,15 +22,21 @@ const SPLASH_DURATION = 3000; // 3 seconds
 
 export default function SplashScreen() {
   const navigation = useNavigation<SplashScreenNavigationProp>();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const onboardingStep = useAuthStore((state) => state.onboardingStep);
   const { height } = useWindowDimensions();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('Login');
+      if (isAuthenticated && onboardingStep === true) {
+        navigation.replace('Main');
+      } else {
+        navigation.replace('Auth');
+      }
     }, SPLASH_DURATION);
 
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, [isAuthenticated, onboardingStep, navigation]);
 
   return (
     <View style={[styles.container, { minHeight: height }]}>
@@ -43,10 +50,10 @@ export default function SplashScreen() {
       {/* Tagline at bottom */}
       <View style={styles.bottomContent}>
         <Text
-          variant="caption"
+          family="regular"
+          size="sm"
           color="textSecondary"
           align="center"
-          weight="regular"
         >
           {Strings.splash.tagline}
         </Text>

@@ -17,6 +17,8 @@ import { Colors } from '../../../config/colors';
 interface AvatarGroupProps {
   size?: 'sm' | 'md' | 'lg';
   count?: number;
+  images?: any[];
+  svgImages?: React.ReactNode[];
   style?: StyleProp<ViewStyle>;
 }
 
@@ -30,12 +32,14 @@ const AVATAR_COLORS = [
 export default function AvatarGroup({
   size = 'md',
   count = 3,
+  images = [], 
+   svgImages = [],     // ✅ add this
   style,
 }: AvatarGroupProps) {
   const sizeConfig = {
     sm: { width: 24, height: 24 },
     md: { width: 32, height: 32 },
-    lg: { width: 40, height: 40 },
+    lg: { width: 36, height: 36 },
   };
 
   const config = sizeConfig[size];
@@ -57,58 +61,54 @@ export default function AvatarGroup({
             {
               width: config.width,
               height: config.height,
+              borderRadius: config.width / 2,
               marginLeft: index === 0 ? 0 : -overlap,
-              zIndex: count - index,
             },
           ]}
         >
-          {/* Placeholder avatar - replace with Image when needed */}
-          <View
-            style={[
-              styles.avatar,
-              {
-                width: config.width,
-                height: config.height,
-                backgroundColor: AVATAR_COLORS[index % AVATAR_COLORS.length],
-              },
-            ]}
-          >
-            {/* Placeholder for avatar initials or image */}
-          </View>
-        </View>
-      ))}
-
-      {count > 3 && (
-        <View
-          style={[
-            styles.avatarContainer,
-            {
+          {/* SVG image */}
+          {svgImages[index] ? (
+            <View style={{
               width: config.width,
               height: config.height,
-              marginLeft: -overlap,
-              zIndex: 0,
-            },
-          ]}
-        >
-          <View
-            style={[
-              styles.avatar,
-              {
+              borderRadius: config.width / 2,
+              overflow: 'hidden',
+              borderWidth: 0,
+              borderColor: Colors.white,
+            }}>
+              {svgImages[index]}
+            </View>
+
+          // PNG/JPG image
+          ) :images[index] ? (
+            <Image
+              source={images[index]}
+              style={{
                 width: config.width,
                 height: config.height,
-                backgroundColor: Colors.border,
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-            ]}
-          >
-            {/* This would show +X more */}
-          </View>
+                borderRadius: config.width / 2,
+                borderWidth: 2,
+                borderColor: Colors.white,
+              }}
+            />
+          ) : (
+            <View
+              style={[
+                styles.avatar,
+                {
+                  width: config.width,
+                  height: config.height,
+                  backgroundColor: AVATAR_COLORS[index % AVATAR_COLORS.length],
+                },
+              ]}
+            />
+          )}
         </View>
-      )}
+      ))}
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderRadius: BorderRadius.full,
-    backgroundColor: Colors.border,
+    
     borderWidth: 2,
     borderColor: Colors.white,
   },

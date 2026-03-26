@@ -31,6 +31,28 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   fullWidth?: boolean;
+  // ✅ add these
+  fontFamily?: string;
+  textColor?: string;
+  fontSize?: number;
+  borderColor?: string;
+  borderWidth?: number;
+  backgroundColor?: string;
+  iconGap?: number;
+  shadowOpacity?: number;
+}
+
+interface ButtonProps {
+  onPress: () => void;
+  title: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  loading?: boolean;
+  disabled?: boolean;
+  icon?: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  fullWidth?: boolean;
 }
 
 export default function Button({
@@ -44,6 +66,14 @@ export default function Button({
   style,
   textStyle,
   fullWidth = true,
+   fontFamily,
+  textColor,
+  fontSize,
+  borderColor,
+  borderWidth,
+  backgroundColor,
+  iconGap = 8,
+  shadowOpacity = 0,
 }: ButtonProps) {
   const sizeConfig = {
     sm: {
@@ -105,6 +135,11 @@ export default function Button({
           borderWidth: variantStyle.borderWidth,
           borderColor: variantStyle.borderColor || Colors.border,
           width: fullWidth ? '100%' : 'auto',
+          shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: shadowOpacity,
+    shadowRadius: 4,
+    elevation: shadowOpacity * 10,  // android
         },
         style,
       ]}
@@ -118,8 +153,9 @@ export default function Button({
             style={[
               styles.text,
               {
-                fontSize: config.fontSize,
-                color: disabled ? Colors.textLight : variantStyle.text,
+                 fontSize: fontSize || config.fontSize,
+                color: textColor || (disabled ? Colors.textLight : variantStyle.text),
+                fontFamily: fontFamily,
                 marginLeft: icon ? Spacing.sm : 0,
               },
               textStyle,

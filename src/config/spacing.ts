@@ -4,8 +4,11 @@
  */
 
 export const Spacing = {
-  xs: 4,      // Extra small
-  sm: 8,      // Small
+  xs: 4,
+  margin_7: 7,      // Extra small
+  sm: 8,
+  margin_12:12,
+  margin_14:14,      // Small
   md: 16,     // Medium
   lg: 24,     // Large
   xl: 32,     // Extra large
@@ -15,7 +18,7 @@ export const Spacing = {
 export const Padding = {
   container: 16,
   screenVertical: 24,
-  screenHorizontal: 16,
+  screenHorizontal: 30,
 };
 
 export const BorderRadius = {

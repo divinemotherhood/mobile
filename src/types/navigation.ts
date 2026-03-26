@@ -5,10 +5,25 @@
 
 export type RootStackParamList = {
   Splash: undefined;
-  Login: undefined;
-  // Add more screens here as needed
-  Home: undefined;
-  Profile: undefined;
+  Auth: undefined;
+  Main: undefined;
 };
 
-export type ScreenName = keyof RootStackParamList;
+export type AuthStackParamList = {
+  Login: undefined;
+  Profile: undefined;        // no params — reads from store now
+  PregnancyDetail: undefined;
+  InterestScreen: undefined;
+  ProgramPricing: undefined;
+};
+
+export type MainTabParamList = {
+  HomeTab: undefined;
+  ProfileTab: undefined;
+  SettingsTab: undefined;
+};
+
+export type HomeStackParamList = {
+  Home: undefined;
+};
+

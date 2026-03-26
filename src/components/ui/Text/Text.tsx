@@ -1,6 +1,6 @@
 /**
  * Text Component
- * Centralized text styling for consistency
+ * Flexible typography component with direct font family control
  */
 
 import React from 'react';
@@ -10,99 +10,114 @@ import {
   StyleProp,
   TextStyle,
 } from 'react-native';
-import { Colors,ColorType } from '../../../config/colors';
+import { Colors, ColorType } from '../../../config/colors';
 import { Typography } from '../../../config/typography';
 
-export type TextVariant = 'h1' | 'h2' | 'h3' | 'subtitle' | 'body' | 'caption' | 'small';
+export type FontFamily =
+  | 'regular'
+  | 'medium'
+  | 'semibold'
+  | 'bold'
+  | 'IS-Regular'
+  | 'IS-Medium'
+  | 'IS-SemiBold'
+  | 'IS-Bold'
+  | 'Larken-Regular'
+  | 'Larken-Medium'
+  | 'Larken-SemiBold'
+  | 'Larken-Bold';
+export type FontSize = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xxl' | 'xxxl' | 'display' |'larkenText' | number;
+export type FontWeight = 'regular' | 'medium' | 'semibold' | 'bold' | '400' | '500' | '600' | '700';
 
 interface TextProps {
   children: React.ReactNode;
-  variant?: TextVariant;
+  // Typography props
+  family?: FontFamily;
+  size?: FontSize;
+  weight?: FontWeight;
+  // Styling props
   color?: ColorType | string;
-  weight?: keyof typeof Typography.fontWeight;
   align?: 'auto' | 'left' | 'right' | 'center' | 'justify';
+  // Additional styling
+  lineHeight?: number;
+  letterSpacing?: number;
+  // React Native props
   style?: StyleProp<TextStyle>;
   numberOfLines?: number;
+  // Legacy support (deprecated)
+  variant?: string; // Keep for backward compatibility
 }
-
-const variantStyles: {
-  [K in TextVariant]: {
-    fontSize: number;
-    lineHeight: number;
-    fontWeight: '400' | '500' | '600' | '700';
-  };
-} = {
-  h1: {
-    fontSize: Typography.fontSize.display,
-    lineHeight: Typography.fontSize.display * Typography.lineHeight.tight,
-    fontWeight: Typography.fontWeight.bold,
-  },
-  h2: {
-    fontSize: Typography.fontSize.xxxl,
-    lineHeight: Typography.fontSize.xxxl * Typography.lineHeight.tight,
-    fontWeight: Typography.fontWeight.bold,
-  },
-  h3: {
-    fontSize: Typography.fontSize.xl,
-    lineHeight: Typography.fontSize.xl * Typography.lineHeight.normal,
-    fontWeight: Typography.fontWeight.semibold,
-  },
-  subtitle: {
-    fontSize: Typography.fontSize.lg,
-    lineHeight: Typography.fontSize.lg * Typography.lineHeight.normal,
-    fontWeight: Typography.fontWeight.medium,
-  },
-  body: {
-    fontSize: Typography.fontSize.base,
-    lineHeight: Typography.fontSize.base * Typography.lineHeight.relaxed,
-    fontWeight: Typography.fontWeight.regular,
-  },
-  caption: {
-    fontSize: Typography.fontSize.sm,
-    lineHeight: Typography.fontSize.sm * Typography.lineHeight.normal,
-    fontWeight: Typography.fontWeight.regular,
-  },
-  small: {
-    fontSize: Typography.fontSize.xs,
-    lineHeight: Typography.fontSize.xs * Typography.lineHeight.normal,
-    fontWeight: Typography.fontWeight.regular,
-  },
-};
 
 export default function Text({
   children,
-  variant = 'body',
-  color = 'textPrimary',
+  // Typography props
+  family = 'regular',
+  size = 'base',
   weight,
+  // Styling props
+  color = 'textPrimary',
   align = 'auto',
+  // Additional styling
+  lineHeight,
+  letterSpacing,
+  // React Native props
   style,
   numberOfLines,
+  // Legacy support
+  variant,
 }: TextProps) {
-  const variantStyle = variantStyles[variant];
-  const finalFontWeight = weight ? Typography.fontWeight[weight] : variantStyle.fontWeight;
-  const textColor = typeof color === 'string' ? color : Colors[color];
-  
-  // Map fontWeight to the correct font family variant
-  const getFontFamily = () => {
-    const weightMap: { [key in typeof finalFontWeight]: keyof typeof Typography.fontFamily } = {
-      '400': 'regular',
-      '500': 'medium',
-      '600': 'semibold',
-      '700': 'bold',
+  // Handle legacy variant support (map to new system)
+  let finalFamily = family;
+  let finalSize = size;
+  let finalWeight = weight;
+
+  if (variant) {
+    // Map old variants to new system
+    const variantMap: { [key: string]: { family: FontFamily; size: FontSize; weight: FontWeight } } = {
+      h1: { family: 'bold', size: 'display', weight: 'bold' },
+      h2: { family: 'bold', size: 'xxxl', weight: 'bold' },
+      h3: { family: 'semibold', size: 'xl', weight: 'semibold' },
+      subtitle: { family: 'medium', size: 'lg', weight: 'medium' },
+      body: { family: 'regular', size: 'base', weight: 'regular' },
+      caption: { family: 'regular', size: 'sm', weight: 'regular' },
+      small: { family: 'regular', size: 'xs', weight: 'regular' },
     };
-    return Typography.fontFamily[weightMap[finalFontWeight]];
-  };
+
+    const mappedVariant = variantMap[variant];
+    if (mappedVariant) {
+      finalFamily = mappedVariant.family;
+      finalSize = mappedVariant.size;
+      finalWeight = mappedVariant.weight;
+    }
+  }
+
+  // Get font family
+  const fontFamily = Typography.fontFamily[finalFamily] || 'System';
+
+  // Get font size (in case size is passed from value or config)
+  const fontSize = typeof finalSize === 'number' ? finalSize : Typography.fontSize[finalSize];
+
+  // Get font weight if provided (defaults to 400 if not)
+  const fontWeight = finalWeight || undefined;
+
+
+  // Get text color
+  const textColor = typeof color === 'string' ? color : Colors[color];
+
+  // Calculate line height (use provided or default based on font size)
+  const calculatedLineHeight = lineHeight || fontSize * Typography.lineHeight.normal;
 
   return (
     <RNText
       style={[
         {
-          fontSize: variantStyle.fontSize,
-          lineHeight: variantStyle.lineHeight,
-          fontFamily: getFontFamily(),
-          fontWeight: finalFontWeight,
+          fontFamily,
+          fontSize,
+          fontWeight,
           color: textColor,
           textAlign: align,
+          lineHeight: calculatedLineHeight,
+          letterSpacing: letterSpacing || 0,
         },
         style,
       ]}

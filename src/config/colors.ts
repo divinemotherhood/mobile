@@ -8,13 +8,14 @@ export const Colors = {
   primary: '#1BA99D', // Teal/Green
   primaryLight: '#E8F5F1',
   primaryDark: '#008B6F',
-  primaryBlue: '#1BA99D',
   primaryGreen: '#8EC63F',
   
   // Neutral Colors
   white: '#FFFFFF',
   black: '#000000',
+  black70: '#000000B3',
   background: '#F8F8F8',
+  textFieldBg: '#F8FAFC',
   white_bg: '#FAFAFA',
   
   // Text Colors
@@ -34,7 +35,7 @@ export const Colors = {
   error: '#F44336',
   
   // Border Colors
-  border: '#E0E0E0',
+  border: '#E6E9EE',
   borderLight: '#F0F0F0',
   
   // Overlay
