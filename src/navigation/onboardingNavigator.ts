@@ -1,8 +1,9 @@
 export const handleOnboardingNavigation = (
   onboardingStep: number | boolean,
   navigation: any,
+  method: 'replace' | 'navigate' = 'navigate',
 ) => {
-  if (onboardingStep === true) {
+  if (onboardingStep === 4) {
     navigation.replace('Main');
     return;
   }
@@ -11,11 +12,15 @@ export const handleOnboardingNavigation = (
     1: 'Profile',
     2: 'PregnancyDetail',
     3: 'InterestScreen',
-    4: 'ProgramPricing',
+    4: 'Main',
   };
 
   const screen = stepToScreen[onboardingStep as number];
   if (screen) {
-    navigation.replace(screen);
+    if (screen === 'Main') {
+      navigation.replace(screen);
+    } else {
+      navigation[method](screen);
+    }
   }
 };

@@ -22,13 +22,29 @@ const SPLASH_DURATION = 3000; // 3 seconds
 
 export default function SplashScreen() {
   const navigation = useNavigation<SplashScreenNavigationProp>();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const onboardingStep = useAuthStore((state) => state.onboardingStep);
+  const _hasHydrated = useAuthStore((state) => state._hasHydrated);
   const { height } = useWindowDimensions();
 
   useEffect(() => {
+    // Only proceed if store is fully hydrated from AsyncStorage
+    if (!_hasHydrated) return;
+
     const timer = setTimeout(() => {
-      if (isAuthenticated && onboardingStep === true) {
+      const state = useAuthStore.getState();
+      
+      // Robust check: finished onboarding (4 or true)
+      const finishedOnboarding = 
+        state.isLoggedIn || 
+        Number(state.onboardingStep) === 4 || 
+        state.onboardingStep === true;
+
+      console.log('SplashScreen Navigation decision:', { 
+        isLoggedIn: state.isLoggedIn, 
+        onboardingStep: state.onboardingStep,
+        finishedOnboarding 
+      });
+
+      if (finishedOnboarding) {
         navigation.replace('Main');
       } else {
         navigation.replace('Auth');
@@ -36,15 +52,15 @@ export default function SplashScreen() {
     }, SPLASH_DURATION);
 
     return () => clearTimeout(timer);
-  }, [isAuthenticated, onboardingStep, navigation]);
+  }, [_hasHydrated, navigation]);
 
   return (
     <View style={[styles.container, { minHeight: height }]}>
       {/* Logo and branding at center */}
       <View style={styles.centerContent}>
         <AppLogo width={148} height={112} />
-       
-      
+
+
       </View>
 
       {/* Tagline at bottom */}

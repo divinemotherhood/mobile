@@ -31,7 +31,6 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   fullWidth?: boolean;
-  // ✅ add these
   fontFamily?: string;
   textColor?: string;
   fontSize?: number;
@@ -40,19 +39,6 @@ interface ButtonProps {
   backgroundColor?: string;
   iconGap?: number;
   shadowOpacity?: number;
-}
-
-interface ButtonProps {
-  onPress: () => void;
-  title: string;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  loading?: boolean;
-  disabled?: boolean;
-  icon?: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
-  fullWidth?: boolean;
 }
 
 export default function Button({

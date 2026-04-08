@@ -34,6 +34,8 @@ export default function ProfileScreen() {
     handleBack,
     handlePickImage,
     handleVerify,
+    isValid,
+    isPending,
   } = useProfileScreen();
 
   // ── Only UI here ──────────────────────────────────
@@ -53,28 +55,28 @@ export default function ProfileScreen() {
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
       >
-        
- <View style={styles.headerSection}>
+
+        <View style={styles.headerSection}>
           <AppLogo width={148} height={112} />
         </View>
-<RNText style={styles.title}>
-  {Strings.profile.titlePrefix}
-  <RNText style={styles.titleAccent}>{Strings.profile.titleHighlight}</RNText>
-</RNText>
+        <RNText style={styles.title}>
+          {Strings.profile.titlePrefix}
+          <RNText style={styles.titleAccent}>{Strings.profile.titleHighlight}</RNText>
+        </RNText>
         <View style={styles.avatarWrap}>
           <View style={styles.avatarCircle}>
             {userImage ? (
               <Image source={{ uri: userImage }} style={styles.avatarImage} />
             ) : (
               <AvatarPlaceholder
-  width="135%"
-  height="135%"
-  style={{ marginTop: 31 }}
-/>
+                width="135%"
+                height="135%"
+                style={{ marginTop: 31 }}
+              />
             )}
           </View>
           <TouchableOpacity style={styles.avatarEditDot} onPress={handlePickImage}>
-             <EditIcon width={28} height={28} />
+            <EditIcon width={28} height={28} />
           </TouchableOpacity>
         </View>
 
@@ -119,14 +121,17 @@ export default function ProfileScreen() {
           </View>
 
           <TouchableOpacity
-            style={styles.verifyButton}
-            onPress={handleVerify}        // ← was onPress={() => {}}
+            style={[styles.verifyButton, (!isValid || isPending) && { backgroundColor: Colors.textLight }]}
+            onPress={handleVerify}
+            disabled={!isValid || isPending}
           >
-            <RNText style={styles.verifyButtonText}>{Strings.profile.verifyButton}</RNText>
+            <RNText style={styles.verifyButtonText}>
+              {isPending ? 'Verifying...' : Strings.profile.verifyButton}
+            </RNText>
           </TouchableOpacity>
 
           <RNText style={styles.helperText}>
-           {Strings.profile.helperText}
+            {Strings.profile.helperText}
           </RNText>
         </View>
       </ScrollView>
@@ -144,43 +149,44 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     alignItems: 'center',
   },
-   backIcon: {
+  backIcon: {
     width: 20,       // adjust size
     height: 20,
     resizeMode: 'contain',
   },
-   backContent: {
+  backContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   backButton: {
     alignSelf: 'flex-start',
     marginTop: Spacing.md,
-   paddingHorizontal:30},
-  backText: {
-  fontSize: 10,
-    color: Colors.black70,
-  
-     fontFamily: 'IS-Medium',
-         textAlign: 'center',
-        
-         marginStart: Spacing.xs,
-        
+    paddingHorizontal: 30
   },
-    headerSection: {
+  backText: {
+    fontSize: 10,
+    color: Colors.black70,
+
+    fontFamily: 'IS-Medium',
+    textAlign: 'center',
+
+    marginStart: Spacing.xs,
+
+  },
+  headerSection: {
     alignItems: 'center',
   },
   titleAccent: {
-    fontFamily:'Larken-Medium',
+    fontFamily: 'Larken-Medium',
     fontSize: 26,
-  color: Colors.primaryGreen,  // or whatever accent color you want
-},
+    color: Colors.primaryGreen,  // or whatever accent color you want
+  },
   title: {
     marginTop: 20,
-     fontFamily: 'Larken-Medium',
+    fontFamily: 'Larken-Medium',
     fontSize: 26,
     color: Colors.textPrimary,
-   
+
     textAlign: 'center',
   },
   avatarWrap: {
@@ -198,10 +204,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   placeholderWrapper: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
   avatarImage: {
     width: '100%',
@@ -224,7 +230,7 @@ const styles = StyleSheet.create({
   formCard: {
     width: '100%',
     borderRadius: 16,
-    
+
   },
   fieldLabel: {
     marginTop: 25,
@@ -269,7 +275,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IS-Regular',
     color: Colors.black,
   },
-   arrowIcon: {
+  arrowIcon: {
     marginStart: 4,
   },
   phoneInput: {
@@ -287,7 +293,7 @@ const styles = StyleSheet.create({
     marginTop: 36,
     backgroundColor: Colors.primary,
     borderRadius: 4,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -295,7 +301,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 14,
     fontFamily: 'IS-SemiBold',
-  
+
   },
   helperText: {
     marginTop: 8,

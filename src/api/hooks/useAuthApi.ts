@@ -17,11 +17,12 @@ export const useLoginMutation = (navigation: any) => {
   return useMutation<LoginResponse, Error, { idToken: string; userImage?: string }>({
     mutationFn: ({ idToken }) => loginWithGoogle(idToken),
     onSuccess: (data, variables) => {
-      login(data.user, data.onboardingStep);
-      if (variables.userImage && !data.user.userImage) {
-        updateUser({ userImage: variables.userImage });
+      const step = data.onboardingStep ?? (data as any).onboarding_step;
+      login(data.user, step);
+      if (variables.userImage && !data.user.profile_image) {
+        updateUser({ profile_image: variables.userImage });
       }
-      handleOnboardingNavigation(data.onboardingStep, navigation);
+      handleOnboardingNavigation(step, navigation, 'replace');
     },
     onError: (error) => {
       if (__DEV__) {

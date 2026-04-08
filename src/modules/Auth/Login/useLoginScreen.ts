@@ -4,21 +4,32 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+import { getAuth, signOut, GoogleAuthProvider, signInWithCredential, getIdToken } from '@react-native-firebase/auth';
 import { AuthStackParamList } from '../../../types/navigation';
 import { useLoginMutation } from '../../../api/hooks/useAuthApi';
+
+import { useAuthStore } from '../../../store';
+import { handleOnboardingNavigation } from '../../../navigation/onboardingNavigator';
 
 type NavProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
 export const useLoginScreen = () => {
   const navigation = useNavigation<NavProp>();
   const { mutateAsync: callLoginApi, isPending: apiLoading } = useLoginMutation(navigation);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const onboardingStep = useAuthStore((state) => state.onboardingStep);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (isAuthenticated && onboardingStep && onboardingStep !== 4 && onboardingStep !== true) {
+      handleOnboardingNavigation(onboardingStep as any, navigation);
+    }
+  }, [isAuthenticated, onboardingStep, navigation]);
+
+  useEffect(() => {
     GoogleSignin.configure({
-      webClientId: '780512451149-03i4p4fqa6ptv7bcm1b6s8jbtquvd7d8.apps.googleusercontent.com  ',
+      webClientId: '780512451149-03i4p4fqa6ptv7bcm1b6s8jbtquvd7d8.apps.googleusercontent.com',
     });
   }, []);
 
@@ -31,35 +42,55 @@ export const useLoginScreen = () => {
         showPlayServicesUpdateDialog: true,
       });
 
+      // Safely sign out from previous sessions if any
+      try {
+        await GoogleSignin.signOut();
+      } catch (e) {}
+
+      try {
+        const authInstance = getAuth();
+        if (authInstance.currentUser) {
+          await signOut(authInstance);
+        }
+      } catch (e) {}
+
       const response = await GoogleSignin.signIn();
       console.log('=== GOOGLE SIGN IN RESPONSE START ===');
-console.log(JSON.stringify(response, null, 2));
-console.log('=== GOOGLE SIGN IN RESPONSE END ===');
+      console.log(JSON.stringify(response, null, 2));
+      console.log('=== GOOGLE SIGN IN RESPONSE END ===');
 
       if (response.type !== 'success' || !response.data) {
         throw new Error('Google sign-in not completed');
       }
 
-     const { idToken: googleIdToken } = response.data;
-      const photo = response.data.user.photo;
-      console.log('GOOGLE ID TOKEN:', googleIdToken);
 
-      if (!googleIdToken) {
+      const { idToken } = response.data;
+      const photo = response.data.user.photo;
+
+      console.log('GOOGLE ID TOKEN:', idToken);
+      const authInstance = getAuth();
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      await signInWithCredential(authInstance, googleCredential);
+      
+      const currentUser = authInstance.currentUser;
+      if (!currentUser) {
+        throw new Error('Firebase user not found');
+      }
+      
+      const firebaseIdToken = await getIdToken(currentUser);
+      console.log('firebaseIdToken ID TOKEN:', firebaseIdToken);
+
+      if (!firebaseIdToken) {
         throw new Error('No idToken received');
       }
 
-      // Exchange Google token for Firebase token
-      const googleCredential = auth.GoogleAuthProvider.credential(googleIdToken);
-      await auth().signInWithCredential(googleCredential);
-      const firebaseIdToken = await auth().currentUser?.getIdToken();
+      await callLoginApi({
+        idToken: firebaseIdToken as string,
+        userImage: photo,
+      });
+      //navigation.navigate('Profile' as any);
+    } catch (err: unknown) {
 
-      console.log('FIREBASE ID TOKEN:', firebaseIdToken); // ← check this in logs
-
-      if (!firebaseIdToken) {
-        throw new Error('Failed to get Firebase ID token');
-      }
-
-      await callLoginApi({ idToken: firebaseIdToken, userImage: photo });} catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Sign in failed. Please try again.';
       setError(message);
       console.error('Google Sign-In error:', err);

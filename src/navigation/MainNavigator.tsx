@@ -2,8 +2,11 @@
 import React from 'react';
 import { Text, View } from 'react-native'; // ← add View
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { MainTabParamList } from '../types/navigation';
 import HomeNavigator from './HomeNavigator';
+import { useAuthStore } from '../store';
+import Button from '../components/ui/Button/Button';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -13,11 +16,34 @@ const SettingsPlaceholder = () => (
   </View>
 );
 
-const ProfilePlaceholder = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Profile Tab</Text>
-  </View>
-);
+const ProfilePlaceholder = () => {
+  const logout = useAuthStore((state) => state.logout);
+  const navigation = useNavigation<any>();
+
+  const handleLogout = async () => {
+    try {
+      const { getAuth, signOut } = require('@react-native-firebase/auth');
+      await signOut(getAuth());
+    } catch (e) {
+      console.warn('Firebase logout error:', e);
+    }
+    logout();
+    navigation.replace('Auth');
+  };
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 20 }}>
+      <Text>Profile Tab</Text>
+      <View style={{ width: 200 }}>
+        <Button 
+          title="Logout" 
+          onPress={handleLogout}
+          variant="secondary"
+        />
+      </View>
+    </View>
+  );
+};
 
 export default function MainNavigator() {
   return (

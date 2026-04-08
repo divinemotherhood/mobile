@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../types/navigation';
 import { useAuthStore, useUser } from '../../../store/useAuthStore';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { useUpdateProfileMutation } from '../../../api/hooks/useProfileApi';
 
 type RootNavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -14,10 +15,14 @@ export const useProfileScreen = () => {
   const user = useUser();
   const updateUser = useAuthStore((state) => state.updateUser);
 
+  const { mutate: updateProfileApi, isPending } = useUpdateProfileMutation(navigation);
+
   const [name, setName] = useState(user?.full_name ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
   const [phone, setPhone] = useState('');
-  const [userImage, setUserImage] = useState(user?.userImage ?? '');
+  const [userImage, setUserImage] = useState(user?.profile_image ?? '');
+
+  const isValid = phone.trim().length > 0;
 
   const handleBack = () => navigation.goBack();
 
@@ -43,7 +48,26 @@ export const useProfileScreen = () => {
   };
 
   const handleVerify = () => {
-    console.log('Verify profile');
+    if (!isValid) return;
+
+    const formData = new FormData();
+    formData.append('full_name', name);
+    formData.append('country_code', '91');
+    formData.append('whatsapp_number', phone);
+    
+    if (userImage && typeof userImage === 'string' && !userImage.startsWith('http')) {
+      const filename = userImage.split('/').pop() || 'profileImage.jpg';
+      const match = /\.(\w+)$/.exec(filename);
+      const type = match ? `image/${match[1]}` : 'image/jpeg';
+      
+      formData.append('profile_image', {
+        uri: userImage,
+        name: filename,
+        type: type,
+      } as any);
+    }
+
+    updateProfileApi(formData);
   };
 
   return {
@@ -58,5 +82,7 @@ export const useProfileScreen = () => {
     handleBack,
     handlePickImage,
     handleVerify,
+    isValid,
+    isPending,
   };
 };

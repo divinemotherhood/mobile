@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import Config from 'react-native-config';
-import { mmkv, TOKEN_KEYS } from '../services/storage/mmkv';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuthStore } from '../store/useAuthStore';
 import { API_BASE_URL, API_TIMEOUT, ENDPOINTS } from './apiConstants';
 
@@ -20,6 +20,11 @@ let failedQueue: Array<{
   reject: (error: unknown) => void;
 }> = [];
 
+const TOKEN_KEYS = {
+  accessToken: 'access_token',
+  refreshToken: 'refresh_token',
+};
+
 const processQueue = (error: Error | null, token: string | null) => {
   failedQueue.forEach((promise) => {
     if (error) {
@@ -38,7 +43,7 @@ apiClient.interceptors.request.use(
       console.log('[API REQUEST DATA]', config.data);
     }
 
-    const accessToken = mmkv.getString(TOKEN_KEYS.accessToken);
+    const accessToken = await AsyncStorage.getItem(TOKEN_KEYS.accessToken);
     if (accessToken && config.headers) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -80,11 +85,11 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = mmkv.getString(TOKEN_KEYS.refreshToken);
+      const refreshToken = await AsyncStorage.getItem(TOKEN_KEYS.refreshToken);
 
       if (!refreshToken) {
-        mmkv.delete(TOKEN_KEYS.accessToken);
-        mmkv.delete(TOKEN_KEYS.refreshToken);
+        await AsyncStorage.removeItem(TOKEN_KEYS.accessToken);
+        await AsyncStorage.removeItem(TOKEN_KEYS.refreshToken);
         useAuthStore.getState().logout();
         return Promise.reject(error);
       }
@@ -98,10 +103,10 @@ apiClient.interceptors.response.use(
         const { accessToken, refreshToken: newRefreshToken } = tokenResponse.data;
 
         if (accessToken) {
-          mmkv.set(TOKEN_KEYS.accessToken, accessToken);
+          await AsyncStorage.setItem(TOKEN_KEYS.accessToken, accessToken);
         }
         if (newRefreshToken) {
-          mmkv.set(TOKEN_KEYS.refreshToken, newRefreshToken);
+          await AsyncStorage.setItem(TOKEN_KEYS.refreshToken, newRefreshToken);
         }
 
         processQueue(null, accessToken);
@@ -114,8 +119,8 @@ apiClient.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError as Error, null);
 
-        mmkv.delete(TOKEN_KEYS.accessToken);
-        mmkv.delete(TOKEN_KEYS.refreshToken);
+        await AsyncStorage.removeItem(TOKEN_KEYS.accessToken);
+        await AsyncStorage.removeItem(TOKEN_KEYS.refreshToken);
         useAuthStore.getState().logout();
 
         return Promise.reject(refreshError);

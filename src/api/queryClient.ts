@@ -1,7 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { mmkv } from '../services/storage/mmkv';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,21 +15,18 @@ export const queryClient = new QueryClient({
   },
 });
 
-const persister = createSyncStoragePersister({
-  storage: {
-    getItem: (key: string) => {
-      const value = mmkv.getString(key);
-      return value === undefined ? null : value;
-    },
-    setItem: (key: string, value: string) => {
-      mmkv.set(key, value);
-    },
-    removeItem: (key: string) => {
-      mmkv.delete(key);
-    },
+const persister = {
+  persistClient: async (client: any) => {
+    await AsyncStorage.setItem('REACT_QUERY_OFFLINE_CACHE', JSON.stringify(client));
   },
- 
-});
+  restoreClient: async () => {
+    const cache = await AsyncStorage.getItem('REACT_QUERY_OFFLINE_CACHE');
+    return cache ? JSON.parse(cache) : undefined;
+  },
+  removeClient: async () => {
+    await AsyncStorage.removeItem('REACT_QUERY_OFFLINE_CACHE');
+  },
+};
 
 export const setupQueryPersistence = async () => {
   try {

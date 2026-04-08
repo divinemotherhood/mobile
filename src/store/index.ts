@@ -3,4 +3,10 @@
  * Centralized export for all Zustand stores
  */
 
-export { useAuthStore, useUser, useIsAuthenticated, useOnboardingStep } from './authStore';
+export {
+  useAuthStore,
+  useUser,
+  useIsAuthenticated,
+  useOnboardingStep,
+  useIsLoggedIn,
+} from './useAuthStore';

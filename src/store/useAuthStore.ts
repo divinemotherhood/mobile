@@ -1,37 +1,22 @@
 import { create } from 'zustand';
-import { persist, PersistStorage } from 'zustand/middleware';
-import { mmkv } from '../services/storage/mmkv';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginUser } from '../api/models/auth.model';
 
 interface AuthState {
   user: LoginUser | null;
   isAuthenticated: boolean;
   onboardingStep: number | boolean | null;
+  isLoggedIn: boolean;
+  _hasHydrated: boolean; 
 
   login: (user: LoginUser, onboardingStep: number | boolean) => void;
   logout: () => void;
   setOnboardingStep: (step: number | boolean) => void;
+  setIsLoggedIn: (val: boolean) => void;
   updateUser: (updates: Partial<LoginUser>) => void;
+  setHasHydrated: (val: boolean) => void; 
 }
-
-interface PersistedAuthState {
-  user: LoginUser | null;
-  isAuthenticated: boolean;
-  onboardingStep: number | boolean | null;
-}
-
-const zustandStorage: PersistStorage<PersistedAuthState> = {
-  getItem: async (name: string) => {
-    const value = mmkv.getString(name);
-    return value === undefined ? null : JSON.parse(value);
-  },
-  setItem: async (name: string, value: any) => {
-    mmkv.set(name, JSON.stringify(value));
-  },
-  removeItem: async (name: string) => {
-    mmkv.delete(name);
-  },
-};
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -39,22 +24,38 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       onboardingStep: null,
+      isLoggedIn: false,
+      _hasHydrated: false,
 
+      // ✅ sets isLoggedIn based on onboardingStep
       login: (user, onboardingStep) =>
         set({
           user,
           isAuthenticated: true,
           onboardingStep,
+          isLoggedIn: Number(onboardingStep) === 4 || onboardingStep === true,
         }),
 
+      // ✅ clears everything including isLoggedIn
       logout: () =>
         set({
           user: null,
           isAuthenticated: false,
           onboardingStep: null,
+          isLoggedIn: false,
         }),
 
-      setOnboardingStep: (step) => set({ onboardingStep: step }),
+      // ✅ sets isLoggedIn when step reaches 4
+      setOnboardingStep: (step) =>
+        set({
+          onboardingStep: step,
+          isLoggedIn: Number(step) === 4 || step === true,
+        }),
+
+      // ✅ manual override for Interest screen
+      setIsLoggedIn: (val) => set({ isLoggedIn: val }),
+
+      setHasHydrated: (val) => set({ _hasHydrated: val }),
 
       updateUser: (updates) =>
         set((state) => ({
@@ -63,11 +64,15 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'divine-motherhood-auth-storage',
-      storage: zustandStorage,
+      storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
         onboardingStep: state.onboardingStep,
+        isLoggedIn: state.isLoggedIn,
       }),
     },
   ),
@@ -76,3 +81,4 @@ export const useAuthStore = create<AuthState>()(
 export const useUser = () => useAuthStore((state) => state.user);
 export const useIsAuthenticated = () => useAuthStore((state) => state.isAuthenticated);
 export const useOnboardingStep = () => useAuthStore((state) => state.onboardingStep);
+export const useIsLoggedIn = () => useAuthStore((state) => state.isLoggedIn);
