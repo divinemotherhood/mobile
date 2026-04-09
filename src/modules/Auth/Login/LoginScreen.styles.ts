@@ -3,6 +3,7 @@
 import { StyleSheet } from 'react-native';
 import { Colors } from '../../../config/colors';
 import { Spacing, Padding } from '../../../config/spacing';
+import { rf } from '../../../utils/responsiveFont';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,6 +11,8 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white_bg,
   },
   scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
     paddingHorizontal: Padding.screenHorizontal,
     paddingTop: Spacing.xl,
     paddingBottom: Spacing.xxl,
@@ -49,21 +52,21 @@ export const styles = StyleSheet.create({
   // ── Text ───────────────────────────────────────────────────────
   welcomeTitle: {
     fontFamily: 'Larken-Medium',
-    fontSize: 38,
+    fontSize: rf(38, 28, 46),
     color: Colors.textPrimary,
     textAlign: 'center',
-    lineHeight: 45,
+    lineHeight: rf(38, 28, 46) * 1.18,
     marginBottom: Spacing.margin_14,
   },
   subtitle: {
     fontFamily: 'IS-Regular',
-    fontSize: 16,
+    fontSize: rf(16, 13, 20),
     color: Colors.black70,
     textAlign: 'center',
   },
   socialProofText: {
     fontFamily: 'IS-Regular',
-    fontSize: 12,
+    fontSize: rf(12, 10, 15),
     color: '#000000',
     marginLeft: 8,
   },
@@ -75,18 +78,18 @@ export const styles = StyleSheet.create({
   },
   termsPrefix: {
     fontFamily: 'IS-Regular',
-    fontSize: 12,
+    fontSize: rf(12, 10, 15),
     color: Colors.black70,
   },
   termsLink: {
     fontFamily: 'IS-Medium',
-    fontSize: 12,
+    fontSize: rf(12, 10, 15),
     color: Colors.primary,
     marginLeft: 2,
   },
   errorText: {
     fontFamily: 'IS-Regular',
-    fontSize: 14,
+    fontSize: rf(14, 12, 17),
     color: '#B71C1C',
     textAlign: 'center',
     marginBottom: 12,

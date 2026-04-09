@@ -82,6 +82,7 @@ export const useProfileScreen = () => {
     handleBack,
     handlePickImage,
     handleVerify,
+    handleDemo: () => navigation.navigate('FeaturesDemo'),
     isValid,
     isPending,
   };

@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { View, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuthStore } from '../../store';
@@ -15,6 +15,7 @@ import { Colors } from '../../config/colors';
 import { Padding } from '../../config/spacing';
 import { Strings } from '../../config/strings';
 import { RootStackParamList } from '../../types/navigation';
+import { rf } from '../../utils/responsiveFont';
 
 type SplashScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Splash'>;
 
@@ -23,7 +24,11 @@ const SPLASH_DURATION = 3000; // 3 seconds
 export default function SplashScreen() {
   const navigation = useNavigation<SplashScreenNavigationProp>();
   const _hasHydrated = useAuthStore((state) => state._hasHydrated);
-  const { height } = useWindowDimensions();
+  const {  width,height } = useWindowDimensions();
+  const isTablet = width >= 768;
+const logoWidth  = width * 0.40;
+const logoHeight = logoWidth * (112 / 148);
+const buttonWidth = isTablet ? width * 0.35 : width * 0.65;
 
   useEffect(() => {
     // Only proceed if store is fully hydrated from AsyncStorage
@@ -45,9 +50,11 @@ export default function SplashScreen() {
       });
 
       if (finishedOnboarding) {
-        navigation.replace('Main');
+       // navigation.replace('Main');
+        navigation.replace('FeaturesDemo');
       } else {
-        navigation.replace('Auth');
+       // navigation.replace('Auth');
+       navigation.replace('FeaturesDemo');
       }
     }, SPLASH_DURATION);
 
@@ -58,7 +65,8 @@ export default function SplashScreen() {
     <View style={[styles.container, { minHeight: height }]}>
       {/* Logo and branding at center */}
       <View style={styles.centerContent}>
-        <AppLogo width={148} height={112} />
+        
+        <AppLogo width={logoWidth} height={logoHeight} />
 
 
       </View>
@@ -73,6 +81,13 @@ export default function SplashScreen() {
         >
           {Strings.splash.tagline}
         </Text>
+        
+       <TouchableOpacity 
+  style={{ marginTop: 20, paddingVertical: 12, backgroundColor: '#B388FF', borderRadius: 8, width: buttonWidth, alignItems: 'center' }}
+  onPress={() => navigation.navigate('FeaturesDemo')}
+>
+  <Text family="bold" size="sm" style={{ fontSize: rf(14, 12, 17), color: 'white' }}>Test New Features</Text>
+</TouchableOpacity>
       </View>
     </View>
   );

@@ -19,7 +19,7 @@ export default function AuthNavigator() {
         animation: 'slide_from_right',
       }}
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Login" component={PregnancyDetailScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="PregnancyDetail" component={PregnancyDetailScreen} />
       <Stack.Screen name="InterestScreen" component={InterestScreen} />

@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 
-export const API_BASE_URL = 'https://key-older-staff-activated.trycloudflare.com';
+export const API_BASE_URL = 'https://nonmethodical-ventriloquially-maximus.ngrok-free.dev';
 export const API_TIMEOUT = 15000;
 
 export const ENDPOINTS = {

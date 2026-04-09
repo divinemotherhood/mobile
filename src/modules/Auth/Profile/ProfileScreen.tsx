@@ -21,9 +21,16 @@ import { Strings } from '../../../config/strings';
 import BackIcon from '../../../assets/icons/ic_back.svg';
 import ArrowDownIcon from '../../../assets/icons/ic_down_arrow.svg';
 import Flag from '../../../assets/icons/ic_flag.svg';
+import { useWindowDimensions } from 'react-native';
+import { rf } from '../../../utils/responsiveFont';
 
 export default function ProfileScreen() {
-
+const { width, height } = useWindowDimensions();
+const isTablet = width >= 768;
+const isLandscape = width > height;
+const logoWidth  = width * 0.35;
+const logoHeight = logoWidth * (112 / 148);
+const avatarSize = Math.min(width * 0.25, 100); 
   // ── All logic comes from hook ─────────────────────
   const {
     user,
@@ -34,6 +41,7 @@ export default function ProfileScreen() {
     handleBack,
     handlePickImage,
     handleVerify,
+    handleDemo,
     isValid,
     isPending,
   } = useProfileScreen();
@@ -52,19 +60,20 @@ export default function ProfileScreen() {
       </TouchableOpacity>
 
       <ScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={[styles.container, { paddingHorizontal: isTablet ? 60 : isLandscape ? 60 : 30 }]}
         keyboardShouldPersistTaps="handled"
       >
 
         <View style={styles.headerSection}>
-          <AppLogo width={148} height={112} />
+          <AppLogo width={logoWidth} height={logoHeight} />
         </View>
         <RNText style={styles.title}>
           {Strings.profile.titlePrefix}
           <RNText style={styles.titleAccent}>{Strings.profile.titleHighlight}</RNText>
         </RNText>
         <View style={styles.avatarWrap}>
-          <View style={styles.avatarCircle}>
+          <View style={[styles.avatarCircle, { width: avatarSize, height: avatarSize, borderRadius: avatarSize / 2 }]}>
+
             {userImage ? (
               <Image source={{ uri: userImage }} style={styles.avatarImage} />
             ) : (
@@ -130,6 +139,15 @@ export default function ProfileScreen() {
             </RNText>
           </TouchableOpacity>
 
+          <TouchableOpacity 
+            style={[styles.verifyButton, { backgroundColor: '#B388FF', marginTop: 10 }]} 
+            onPress={handleDemo}
+          >
+            <RNText style={styles.verifyButtonText}>
+              VIEW FEATURES DEMO
+            </RNText>
+          </TouchableOpacity>
+
           <RNText style={styles.helperText}>
             {Strings.profile.helperText}
           </RNText>
@@ -146,7 +164,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAFBFD',
   },
   container: {
-    paddingHorizontal: 30,
     alignItems: 'center',
   },
   backIcon: {
@@ -164,7 +181,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30
   },
   backText: {
-    fontSize: 10,
+    fontSize: rf(10, 9, 13),
     color: Colors.black70,
 
     fontFamily: 'IS-Medium',
@@ -178,13 +195,13 @@ const styles = StyleSheet.create({
   },
   titleAccent: {
     fontFamily: 'Larken-Medium',
-    fontSize: 26,
+    fontSize: rf(26, 20, 32),
     color: Colors.primaryGreen,  // or whatever accent color you want
   },
   title: {
     marginTop: 20,
     fontFamily: 'Larken-Medium',
-    fontSize: 26,
+    fontSize: rf(26, 20, 32),
     color: Colors.textPrimary,
 
     textAlign: 'center',
@@ -235,7 +252,7 @@ const styles = StyleSheet.create({
   fieldLabel: {
     marginTop: 25,
     color: Colors.black70,
-    fontSize: 12,
+    fontSize: rf(12, 10, 15),
     marginBottom: 6,
     fontFamily: 'IS-SemiBold',
   },
@@ -246,7 +263,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     borderRadius: 6,
     paddingHorizontal: 12,
-    fontSize: 12,
+    fontSize: rf(12, 10, 15),
     color: Colors.black70,
     backgroundColor: Colors.textFieldBg,
   },
@@ -270,7 +287,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   countryCode: {
-    fontSize: 12,
+    fontSize: rf(12, 10, 15),
     marginStart: 8,
     fontFamily: 'IS-Regular',
     color: Colors.black,
@@ -285,7 +302,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     borderRadius: 6,
     paddingHorizontal: 12,
-    fontSize: 12,
+    fontSize:  rf(12, 10, 15),
     color: Colors.black70,
     backgroundColor: Colors.textFieldBg,
   },
@@ -299,7 +316,7 @@ const styles = StyleSheet.create({
   },
   verifyButtonText: {
     color: Colors.white,
-    fontSize: 14,
+    fontSize: rf(14, 12, 17),
     fontFamily: 'IS-SemiBold',
 
   },
@@ -307,7 +324,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
     color: Colors.black70,
-    fontSize: 10,
+    fontSize: rf(10, 9, 13),
     fontFamily: 'IS-Regular',
   },
 });

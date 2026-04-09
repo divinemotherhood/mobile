@@ -9,6 +9,8 @@ import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 import { setupQueryPersistence } from '../api/queryClient';
 
+import FeaturesDemoScreen from '../modules/Features/FeaturesDemoScreen';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
@@ -29,6 +31,7 @@ export default function RootNavigator() {
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Auth" component={AuthNavigator} />
         <Stack.Screen name="Main" component={MainNavigator} />
+        <Stack.Screen name="FeaturesDemo" component={FeaturesDemoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

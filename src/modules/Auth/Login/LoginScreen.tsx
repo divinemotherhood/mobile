@@ -11,6 +11,7 @@ import {
 import { styles } from './LoginScreen.styles';
 import { useLoginScreen } from './useLoginScreen';
 import { Strings } from '../../../config/strings';
+import { rf } from '../../../utils/responsiveFont';
 
 // Components
 import Button from '../../../components/ui/Button/Button';
@@ -23,22 +24,27 @@ import Avatar1 from '../../../assets/images/avatar1.svg';
 import Avatar2 from '../../../assets/images/avatar2.svg';
 import Avatar3 from '../../../assets/images/avatar3.svg';
 
-// ── Avatar data — defined outside component (no re-create on render)
-const AVATARS = [
-  <Avatar3 width={36} height={36} />,
-  <Avatar2 width={36} height={36} />,
-  <Avatar1 width={36} height={36} />,
-];
+
 
 export default function LoginScreen() {
-  const { height } = useWindowDimensions();
+  const { width,height } = useWindowDimensions();
+  const isTablet = width >= 768;
+  const logoWidth  = width * 0.40;
+  const logoHeight = logoWidth * (112 / 148);
+  const avatarSize = 36;
+  const isLandscape = width > height;
   const {
     isLoading,
     error,
     handleGoogleLogin,
     handleTermsPress,
   } = useLoginScreen();
-
+// ── Avatar data — defined outside component (no re-create on render)
+const AVATARS = [
+  <Avatar3 width={avatarSize} height={avatarSize} />,
+  <Avatar2 width={avatarSize} height={avatarSize} />,
+  <Avatar1 width={avatarSize} height={avatarSize} />,
+];
   return (
     <View style={[styles.container, { minHeight: height }]}>
 
@@ -49,7 +55,7 @@ export default function LoginScreen() {
       >
         {/* Logo */}
         <View style={styles.headerSection}>
-          <AppLogo width={148} height={112} />
+          <AppLogo width={logoWidth} height={logoHeight} />
         </View>
 
         {/* Welcome Text */}
@@ -94,9 +100,7 @@ export default function LoginScreen() {
             shadowOpacity={0.08}
           />
         </View>
-      </ScrollView>
-
-      {/* ── Footer ─────────────────────────────────────────── */}
+           {/* ── Footer ─────────────────────────────────────────── */}
       <View style={styles.footerSection}>
         <View style={styles.termsContainer}>
           <Text style={styles.termsPrefix}>
@@ -112,6 +116,9 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
+
+   
 
     </View>
   );

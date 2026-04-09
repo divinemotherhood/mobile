@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Splash: undefined;
   Auth: undefined;
   Main: undefined;
+  FeaturesDemo: undefined;
 };
 
 export type AuthStackParamList = {

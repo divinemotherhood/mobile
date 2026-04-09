@@ -17,6 +17,10 @@ end
 target 'DivineMotherHood' do
   config = use_native_modules!
 
+  setup_permissions([
+    'LocationWhenInUse',
+  ])
+
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
