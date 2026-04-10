@@ -16,6 +16,8 @@ import { Padding } from '../../config/spacing';
 import { Strings } from '../../config/strings';
 import { RootStackParamList } from '../../types/navigation';
 import { rf } from '../../utils/responsiveFont';
+import Config from 'react-native-config';
+
 
 type SplashScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Splash'>;
 
@@ -50,10 +52,16 @@ const buttonWidth = isTablet ? width * 0.35 : width * 0.65;
       });
 
       if (finishedOnboarding) {
+         console.log(Config.API_URL);  
+         console.log(Config.ENV);
         navigation.replace('Main');
+       
         //navigation.replace('FeaturesDemo');
       } else {
+        console.log(Config.API_URL);  
+        console.log(Config.ENV);
         navigation.replace('Auth');
+        
        //navigation.replace('FeaturesDemo');
       }
     }, SPLASH_DURATION);

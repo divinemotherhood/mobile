@@ -17,7 +17,7 @@ export type AuthStackParamList = {
   InterestScreen: Record<string, never>;
   ProgramPricing: Record<string, never>;
   Permission: Record<string, never>;
-  FeaturesDemo: {};
+  FeaturesDemo: Record<string, never>;
 };
 
 export type MainTabParamList = {

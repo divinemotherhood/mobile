@@ -98,7 +98,7 @@ export default function Text({
   const fontSize = typeof finalSize === 'number' ? finalSize : Typography.fontSize[finalSize];
 
   // Get font weight if provided (defaults to 400 if not)
-  const fontWeight = finalWeight || undefined;
+  const fontWeight = finalWeight;
 
 
   // Get text color

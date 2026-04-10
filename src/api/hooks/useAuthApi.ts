@@ -20,7 +20,7 @@ export const useLoginMutation = (navigation: AuthNavProp) => {
   return useMutation<LoginResponse, Error, { idToken: string; userImage?: string }>({
     mutationFn: ({ idToken }) => loginWithGoogle(idToken),
     onSuccess: (data, variables) => {
-      const step = data.onboardingStep
+      const step = data.user?.onboardingStep
       login(data.user, step);
       if (variables.userImage && !data.user.profile_image) {
         updateUser({ profile_image: variables.userImage });

@@ -23,9 +23,14 @@ export const useLoginScreen = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated && onboardingStep && onboardingStep !== 4 && onboardingStep !== true) {
-      handleOnboardingNavigation(onboardingStep, navigation);
-    }
+    console.log('=== useEffect FIRED ===');
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('onboardingStep:', onboardingStep);
+    if (isAuthenticated && onboardingStep) {
+          console.log('=== NAVIGATING to step:', onboardingStep);
+
+    handleOnboardingNavigation(onboardingStep, navigation);
+  }
   }, [isAuthenticated, onboardingStep, navigation]);
 
   useEffect(() => {
@@ -90,7 +95,8 @@ export const useLoginScreen = () => {
         idToken: firebaseIdToken as string,
         userImage: photo,
       });
-      //navigation.navigate('Profile' as any);
+      
+      //navigation.navigate('Profile');
     } catch (err: unknown) {
 
       const message = err instanceof Error ? err.message : 'Sign in failed. Please try again.';

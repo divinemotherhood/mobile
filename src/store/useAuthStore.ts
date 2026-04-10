@@ -6,7 +6,7 @@ import { LoginUser } from '../api/models/auth.model';
 interface AuthState {
   user: LoginUser | null;
   isAuthenticated: boolean;
-  onboardingStep: number | boolean | null;
+  onboardingStep: number | boolean;
   isLoggedIn: boolean;
   _hasHydrated: boolean; 
 
@@ -23,7 +23,7 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       isAuthenticated: false,
-      onboardingStep: null,
+      onboardingStep: 0,
       isLoggedIn: false,
       _hasHydrated: false,
 
@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           user,
           isAuthenticated: true,
-          onboardingStep,
+          onboardingStep:onboardingStep,
           isLoggedIn: Number(onboardingStep) === 4 || onboardingStep === true,
         }),
 

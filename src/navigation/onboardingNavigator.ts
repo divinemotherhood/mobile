@@ -10,13 +10,7 @@ export const handleOnboardingNavigation = (
   method: 'replace' | 'navigate' = 'navigate',
 ) => {
   if (onboardingStep === 4) {
-    // navigation.dispatch(
-    //     CommonActions.reset({
-    //       index: 0,
-    //       routes: [{ name: 'Main' }],
-    //     })
-    //   );
-    navigation.navigate('Permission');
+     navigation.navigate('Permission');
     return;
   }
 

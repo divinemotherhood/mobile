@@ -6,13 +6,13 @@ export interface LoginUser {
   id: string;
   email: string;
   full_name: string;
+  onboardingStep: number | boolean;
   profile_image?: string;
 }
 
 export interface LoginResponse {
   success: boolean;
   message: string;
-  onboardingStep: number;
   user: LoginUser;
 }
 
