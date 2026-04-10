@@ -1,9 +1,9 @@
-// src/navigation/MainNavigator.tsx
 import React from 'react';
-import { Text, View } from 'react-native'; // ← add View
+import { Text, View } from 'react-native'; 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
-import { MainTabParamList } from '../types/navigation';
+import { useNavigation,CommonActions } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainTabParamList,RootStackParamList } from '../types/navigation';
 import HomeNavigator from './HomeNavigator';
 import { useAuthStore } from '../store';
 import Button from '../components/ui/Button/Button';
@@ -16,9 +16,11 @@ const SettingsPlaceholder = () => (
   </View>
 );
 
+type ProfileNavProp = NativeStackNavigationProp<RootStackParamList>;
+
 const ProfilePlaceholder = () => {
   const logout = useAuthStore((state) => state.logout);
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<ProfileNavProp>();
 
   const handleLogout = async () => {
     try {
@@ -28,7 +30,13 @@ const ProfilePlaceholder = () => {
       console.warn('Firebase logout error:', e);
     }
     logout();
-    navigation.replace('Auth');
+    //navigation.replace('Auth');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Auth' }],
+      })
+    );
   };
 
   return (
@@ -48,7 +56,7 @@ const ProfilePlaceholder = () => {
 export default function MainNavigator() {
   return (
     <Tab.Navigator
-      id={undefined}
+      id="MainNavigator"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: '#0D1B2A',

@@ -12,7 +12,7 @@ export interface LoginUser {
 export interface LoginResponse {
   success: boolean;
   message: string;
-  onboardingStep: number | boolean;
+  onboardingStep: number;
   user: LoginUser;
 }
 
@@ -20,13 +20,19 @@ export interface OnboardingResponse {
   success: boolean;
   message: string;
   data: {
-    onboarding_step: number | boolean;
+    onboarding_step: number;
   };
+}
+export interface PregnancyDetailRequest {
+  is_first_baby?: boolean;
+  lmp_date?: string;
+  complications?: string[];
+  interests?: string[];
 }
 
 export interface ProfileUpdateResponse {
   success: boolean;
   message: string;
-  onboardingStep?: number | boolean;
+  onboardingStep?: number;
   profile_image?: string;
 }

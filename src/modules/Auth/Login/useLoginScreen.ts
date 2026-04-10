@@ -10,6 +10,7 @@ import { useLoginMutation } from '../../../api/hooks/useAuthApi';
 
 import { useAuthStore } from '../../../store';
 import { handleOnboardingNavigation } from '../../../navigation/onboardingNavigator';
+import { GOOGLE_WEB_CLIENT_ID } from '../../../api/apiConstants';
 
 type NavProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -23,13 +24,14 @@ export const useLoginScreen = () => {
 
   useEffect(() => {
     if (isAuthenticated && onboardingStep && onboardingStep !== 4 && onboardingStep !== true) {
-      handleOnboardingNavigation(onboardingStep as any, navigation);
+      handleOnboardingNavigation(onboardingStep, navigation);
     }
   }, [isAuthenticated, onboardingStep, navigation]);
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId: '780512451149-03i4p4fqa6ptv7bcm1b6s8jbtquvd7d8.apps.googleusercontent.com',
+      //this id is deifne in constants file and imported here, make sure to add your own web client id there
+      webClientId: GOOGLE_WEB_CLIENT_ID//'780512451149-03i4p4fqa6ptv7bcm1b6s8jbtquvd7d8.apps.googleusercontent.com',
     });
   }, []);
 
@@ -42,7 +44,7 @@ export const useLoginScreen = () => {
         showPlayServicesUpdateDialog: true,
       });
 
-      // Safely sign out from previous sessions if any
+      // Safely sign out from previous sessions 
       try {
         await GoogleSignin.signOut();
       } catch (e) {}

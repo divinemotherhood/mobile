@@ -50,11 +50,11 @@ const buttonWidth = isTablet ? width * 0.35 : width * 0.65;
       });
 
       if (finishedOnboarding) {
-       // navigation.replace('Main');
-        navigation.replace('FeaturesDemo');
+        navigation.replace('Main');
+        //navigation.replace('FeaturesDemo');
       } else {
-       // navigation.replace('Auth');
-       navigation.replace('FeaturesDemo');
+        navigation.replace('Auth');
+       //navigation.replace('FeaturesDemo');
       }
     }, SPLASH_DURATION);
 

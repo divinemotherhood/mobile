@@ -1,5 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
-import { persistQueryClient } from '@tanstack/react-query-persist-client';
+import { persistQueryClient,PersistedClient, 
+  Persister } from '@tanstack/react-query-persist-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const queryClient = new QueryClient({
@@ -16,12 +17,12 @@ export const queryClient = new QueryClient({
 });
 
 const persister = {
-  persistClient: async (client: any) => {
+  persistClient: async (client: PersistedClient) => {
     await AsyncStorage.setItem('REACT_QUERY_OFFLINE_CACHE', JSON.stringify(client));
   },
   restoreClient: async () => {
     const cache = await AsyncStorage.getItem('REACT_QUERY_OFFLINE_CACHE');
-    return cache ? JSON.parse(cache) : undefined;
+    return cache ? JSON.parse(cache) : null;
   },
   removeClient: async () => {
     await AsyncStorage.removeItem('REACT_QUERY_OFFLINE_CACHE');

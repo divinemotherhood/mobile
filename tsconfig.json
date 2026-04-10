@@ -3,19 +3,32 @@
     "jsx": "react-native",
     "esModuleInterop": true,
     "strict": false,
-    "types": ["jest"],
+    "types": [
+      "jest"
+    ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "lib": ["es2017"],
+    "lib": [
+      "es2017"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "target": "esnext",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "android", "ios"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "android",
+    "ios"
+  ]
 }

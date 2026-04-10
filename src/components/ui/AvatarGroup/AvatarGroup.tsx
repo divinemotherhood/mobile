@@ -10,14 +10,15 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
+  ImageSourcePropType
 } from 'react-native';
 import { Spacing, BorderRadius } from '../../../config/spacing';
 import { Colors } from '../../../config/colors';
-
+type AvatarSize = 'sm' | 'md' | 'lg';
 interface AvatarGroupProps {
   size?: 'sm' | 'md' | 'lg';
   count?: number;
-  images?: any[];
+  images?: ImageSourcePropType[];
   svgImages?: React.ReactNode[];
   style?: StyleProp<ViewStyle>;
 }

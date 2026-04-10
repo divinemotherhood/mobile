@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator<HomeStackParamList>();
 export default function HomeNavigator() {
   return (
     <Stack.Navigator
-      id={undefined}
+      id="HomeNavigator"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />

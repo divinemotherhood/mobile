@@ -4,27 +4,29 @@
  */
 
 export type RootStackParamList = {
-  Splash: undefined;
-  Auth: undefined;
-  Main: undefined;
-  FeaturesDemo: undefined;
+  Splash: Record<string, never>;
+  Auth: Record<string, never>;
+  Main: Record<string, never>;
+  FeaturesDemo: Record<string, never>;
 };
 
 export type AuthStackParamList = {
-  Login: undefined;
-  Profile: undefined;        // no params — reads from store now
-  PregnancyDetail: undefined;
-  InterestScreen: undefined;
-  ProgramPricing: undefined;
+  Login: Record<string, never>;
+  Profile: Record<string, never>;        // no params — reads from store now
+  PregnancyDetail: Record<string, never>;
+  InterestScreen: Record<string, never>;
+  ProgramPricing: Record<string, never>;
+  Permission: Record<string, never>;
+  FeaturesDemo: {};
 };
 
 export type MainTabParamList = {
-  HomeTab: undefined;
-  ProfileTab: undefined;
-  SettingsTab: undefined;
+  HomeTab: Record<string, never>;
+  ProfileTab: Record<string, never>;
+  SettingsTab: Record<string, never>;
 };
 
 export type HomeStackParamList = {
-  Home: undefined;
+  Home: Record<string, never>;
 };
 

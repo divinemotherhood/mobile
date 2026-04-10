@@ -1,6 +1,6 @@
 import apiClient from '../client';
 import { ENDPOINTS } from '../apiConstants';
-import { LoginResponse, OnboardingResponse, ProfileUpdateResponse } from '../models/auth.model';
+import { LoginResponse, OnboardingResponse, ProfileUpdateResponse,PregnancyDetailRequest } from '../models/auth.model';
 
 export const loginWithGoogle = async (
   token: string,
@@ -20,7 +20,7 @@ export const updateProfile = async (formData: FormData): Promise<ProfileUpdateRe
   return response.data;
 };
 
-export const submitPregnancyDetail = async (data: Record<string, any>): Promise<OnboardingResponse> => {
+export const submitPregnancyDetail = async (data:PregnancyDetailRequest): Promise<OnboardingResponse> => {
   const response = await apiClient.post<OnboardingResponse>(ENDPOINTS.AUTH.PREGNANCYDETAIL, data);
   return response.data;
 };

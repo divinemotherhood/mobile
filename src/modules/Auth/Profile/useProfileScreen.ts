@@ -9,9 +9,10 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { useUpdateProfileMutation } from '../../../api/hooks/useProfileApi';
 
 type RootNavProp = NativeStackNavigationProp<RootStackParamList>;
-
+import { AuthStackParamList } from '../../../types/navigation';
+type AuthNavProp = NativeStackNavigationProp<AuthStackParamList>;
+const navigation = useNavigation<AuthNavProp>();
 export const useProfileScreen = () => {
-  const navigation = useNavigation<RootNavProp>();
   const user = useUser();
   const updateUser = useAuthStore((state) => state.updateUser);
 
@@ -64,7 +65,8 @@ export const useProfileScreen = () => {
         uri: userImage,
         name: filename,
         type: type,
-      } as any);
+      } );
+     
     }
 
     updateProfileApi(formData);
