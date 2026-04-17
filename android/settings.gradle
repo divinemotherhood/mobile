@@ -1,6 +1,21 @@
 pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
 plugins { id("com.facebook.react.settings") }
-extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
+
+def projectRoot = file("..")
+def reactNativeCli = file("../node_modules/@react-native-community/cli/build/bin.js")
+def nodeExecutable =
+    [System.getenv("NODE_BINARY"), System.getenv("REACT_NATIVE_NODE_BINARY")]
+        .find { it }
+        ?: ["/opt/homebrew/bin/node", "/usr/local/bin/node", "node"]
+            .find { it == "node" || file(it).exists() }
+
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+    ex.autolinkLibrariesFromCommand(
+        [nodeExecutable, reactNativeCli.absolutePath, "config"],
+        projectRoot
+    )
+}
+
 rootProject.name = 'DivineMotherhood'
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')
