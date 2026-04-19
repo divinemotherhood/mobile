@@ -1,0 +1,6 @@
+/Users/aakashneema/Desktop/Data/Projects/mobile/android/app/.cxx/Debug/y1s5lx6d/x86/CMakeFiles/appmodules.dir
+/Users/aakashneema/Desktop/Data/Projects/mobile/android/app/.cxx/Debug/y1s5lx6d/x86/CMakeFiles/edit_cache.dir
+/Users/aakashneema/Desktop/Data/Projects/mobile/android/app/.cxx/Debug/y1s5lx6d/x86/CMakeFiles/rebuild_cache.dir
+/Users/aakashneema/Desktop/Data/Projects/mobile/android/app/.cxx/Debug/y1s5lx6d/x86/safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir
+/Users/aakashneema/Desktop/Data/Projects/mobile/android/app/.cxx/Debug/y1s5lx6d/x86/safeareacontext_autolinked_build/CMakeFiles/edit_cache.dir
+/Users/aakashneema/Desktop/Data/Projects/mobile/android/app/.cxx/Debug/y1s5lx6d/x86/safeareacontext_autolinked_build/CMakeFiles/rebuild_cache.dir
