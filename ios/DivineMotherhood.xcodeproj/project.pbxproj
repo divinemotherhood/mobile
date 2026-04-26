@@ -11,10 +11,7 @@
 		0C80B921A6F3F58F76C31292 /* libPods-DivineMotherhood.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-DivineMotherhood.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		7AEF71B66C494856A413F2CE /* InstrumentSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F95506FFE974CAE914605ED /* InstrumentSans-Regular.ttf */; };
-		7B44B8387B434D90870200A8 /* Larken-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7C8F0F59B8C4D1796AD69D5 /* Larken-Medium.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A20E467ACC524C0AA3AFD267 /* InstrumentSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE70C72CCE6D410CB70E1DE3 /* InstrumentSans-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +24,6 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-DivineMotherhood.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DivineMotherhood.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = DivineMotherhood/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DivineMotherhood/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9F95506FFE974CAE914605ED /* InstrumentSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InstrumentSans-Regular.ttf"; path = "../src/assets/fonts/InstrumentSans-Regular.ttf"; sourceTree = "<group>"; };
-		C7C8F0F59B8C4D1796AD69D5 /* Larken-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Larken-Medium.ttf"; path = "../src/assets/fonts/Larken-Medium.ttf"; sourceTree = "<group>"; };
-		CE70C72CCE6D410CB70E1DE3 /* InstrumentSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "InstrumentSans-Medium.ttf"; path = "../src/assets/fonts/InstrumentSans-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -66,17 +60,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7DB5B456F33049888E040135 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				C7C8F0F59B8C4D1796AD69D5 /* Larken-Medium.ttf */,
-				9F95506FFE974CAE914605ED /* InstrumentSans-Regular.ttf */,
-				CE70C72CCE6D410CB70E1DE3 /* InstrumentSans-Medium.ttf */,
-			);
-			name = Resources;
-			path = "";
-			sourceTree = "<group>";
-		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +75,6 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
-				7DB5B456F33049888E040135 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -179,9 +161,6 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				0B0D5B453FC54B9157B046D4 /* PrivacyInfo.xcprivacy in Resources */,
-				7B44B8387B434D90870200A8 /* Larken-Medium.ttf in Resources */,
-				7AEF71B66C494856A413F2CE /* InstrumentSans-Regular.ttf in Resources */,
-				A20E467ACC524C0AA3AFD267 /* InstrumentSans-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
