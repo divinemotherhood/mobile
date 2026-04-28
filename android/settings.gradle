@@ -16,6 +16,16 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
     )
 }
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        // Required for @react-native-async-storage/async-storage v3 native artifact.
+        maven { url = uri("$rootDir/../node_modules/@react-native-async-storage/async-storage/android/local_repo") }
+    }
+}
+
 rootProject.name = 'DivineMotherhood'
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')

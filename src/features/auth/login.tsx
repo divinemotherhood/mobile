@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "@design/colors";
 import Logo from "@assets/images/logo.svg";
@@ -8,28 +8,44 @@ import { Fonts } from "@design/fonts";
 import PeopleIcon from "@assets/images/loginPeople.svg";
 import GoogleIcon from "@assets/images/google.svg";
 import AppText from "@shared/components/AppText";
-import { useNavigation } from "@react-navigation/native";
+import { useGoogleAuth } from "../../hooks/useAuth";
+import { useI18n } from "../../i18n";
 
 const Login = () => {
-    const navigation = useNavigation<any>();
+    const googleAuthMutation = useGoogleAuth();
+    const { t } = useI18n();
+
+    const handleGoogleLogin = async () => {
+        try {
+            await googleAuthMutation.mutateAsync();
+        } catch (error) {
+            console.error("Google sign-in failed", error);
+            Alert.alert(t("loginFailedTitle"), t("loginFailedMessage"));
+        }
+    };
+
     return (
         <SafeAreaView style={Styles.container}>
             <View style={Styles.main}>
                 <Logo style={Styles.logo} />
-                <AppText style={Styles.title}>Welcome to a</AppText>
-                <AppText style={Styles.titleSub}>Beautiful Journey</AppText>
-                <AppText style={Styles.subTitle}>Join our community of expectant mothers</AppText>
-                <AppText style={Styles.subTitleEndText}>for expert-led prenatal care & support</AppText>
+                <AppText style={Styles.title}>{t("loginWelcome")}</AppText>
+                <AppText style={Styles.titleSub}>{t("loginJourney")}</AppText>
+                <AppText style={Styles.subTitle}>{t("loginCommunityLine1")}</AppText>
+                <AppText style={Styles.subTitleEndText}>{t("loginCommunityLine2")}</AppText>
                 <View style={Styles.centerView}>
                     <PeopleIcon />
-                    <AppText style={Styles.joinedText}>Joined by <AppText style={Styles.count}>10k+</AppText> happy mothers</AppText>
+                    <AppText style={Styles.joinedText}>
+                        {t("loginJoinedBy")} <AppText style={Styles.count}>10k+</AppText> {t("loginHappyMothers")}
+                    </AppText>
                 </View>
-                <TouchableOpacity style={Styles.googleButton} onPress={() => navigation.navigate('PersonalizeProfile')}>
+                <TouchableOpacity style={Styles.googleButton} onPress={handleGoogleLogin}>
                     <GoogleIcon />
-                    <AppText style={Styles.googleButtonText}>Countinue with Google</AppText>
+                    <AppText style={Styles.googleButtonText}>{t("loginContinueWithGoogle")}</AppText>
                 </TouchableOpacity>
                 <View style={Styles.bottomView}>
-                    <AppText style={Styles.bottomText}>By continuing, you agree to our <AppText style={Styles.serviceText}>Terms of Service.</AppText></AppText>
+                    <AppText style={Styles.bottomText}>
+                        {t("loginTermsPrefix")} <AppText style={Styles.serviceText}>{t("loginTerms")}</AppText>
+                    </AppText>
                 </View>
             </View>
         </SafeAreaView>

@@ -11,6 +11,7 @@ import Button from "@shared/components/Button";
 import SegmentedTabs from "@shared/components/SegmentedTabs";
 import { useState } from "react";
 import SelectableChips from "@shared/components/SelectableChips";
+import { useNavigation } from "@react-navigation/native";
 
 const OPTIONS = [
     { id: "1", label: "Gestational Diabetes" },
@@ -23,6 +24,7 @@ const OPTIONS = [
 const PregencyDetail = () => {
     const [value, setValue] = useState("yes");
     const [selected, setSelected] = useState<string[]>([]);
+    const navigation = useNavigation<any>();
 
     const handleSelect = (id: string) => {
         setSelected((prev) =>
@@ -61,7 +63,9 @@ const PregencyDetail = () => {
                         onSelect={handleSelect}
                     />
                 </View>
-                <Button title="Continue" onPress={() => { }} style={Styles.button} />
+                <Button title="Continue" onPress={() => {
+                    navigation.navigate('Home');
+                }} style={Styles.button} />
                 <AppText style={Styles.bottomText}>Your details are secured and will not be shared by anyone</AppText>
             </View>
         </SafeAreaView>

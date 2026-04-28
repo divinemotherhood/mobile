@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "780512451149",
+    "project_id": "divine-motherhood-web",
+    "storage_bucket": "divine-motherhood-web.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780512451149:android:2e596a64ea87a94c3c9a04",
+        "android_client_info": {
+          "package_name": "com.divinemotherhood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780512451149-09diks11m8tg310h5tffptlcc4brohjo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.divinemotherhood",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "780512451149-hrre2l3g1dvrkhagpgidgjjmc2lmcqdd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.divinemotherhood",
+            "certificate_hash": "fb99bbcbcc722636ba81cf5201ed70a2dc3def67"
+          }
+        },
+        {
+          "client_id": "780512451149-03i4p4fqa6ptv7bcm1b6s8jbtquvd7d8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnnHnXlhzjFeMgD5YxC8Wfsy5FWZ_NVH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780512451149-03i4p4fqa6ptv7bcm1b6s8jbtquvd7d8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "780512451149-3m1rnj39cuf4lkaob054ek9njenfdot6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.divinemotherhood"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

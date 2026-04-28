@@ -2,10 +2,12 @@ buildscript {
     ext {
         buildToolsVersion = "36.0.0"
         minSdkVersion = 24
+        compileSdk = 36
         compileSdkVersion = 36
         targetSdkVersion = 36
         ndkVersion = "27.1.12297006"
         kotlinVersion = "2.1.20"
+        REACT_NATIVE_NODE_MODULES_DIR = file("../node_modules/react-native")
     }
     repositories {
         google()
@@ -19,3 +21,31 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+// AGP 8+ can fail third-party Android library modules that only declare
+// legacy compileSdkVersion; enforce a compileSdk fallback from root ext.
+subprojects { subproject ->
+    subproject.configurations.configureEach {
+        // Keep dependency graph AndroidX-only; prevents duplicate classes
+        // when a transitive dependency still references legacy support libs.
+        exclude group: "com.android.support"
+    }
+
+    subproject.plugins.withId("com.android.library") {
+        def androidExt = subproject.extensions.findByName("android")
+        if (androidExt == null) return
+
+        def compileSdkValue = rootProject.ext.compileSdkVersion as Integer
+        try {
+            if (androidExt.hasProperty("compileSdk")) {
+                if (androidExt.compileSdk == null || androidExt.compileSdk == 0) {
+                    androidExt.compileSdk = compileSdkValue
+                }
+            } else {
+                androidExt.compileSdkVersion compileSdkValue
+            }
+        } catch (ignored) {
+            // If a module manages its own SDK values, skip overriding it.
+        }
+    }
+}

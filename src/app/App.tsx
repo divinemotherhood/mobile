@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import SplashScreen from "react-native-splash-screen";
 import RootNavigator from './navigation/RootNavigator';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { LanguageProvider } from "../i18n";
 
 function App() {
   const queryClient = new QueryClient();
@@ -13,7 +14,9 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RootNavigator />
+        <LanguageProvider>
+          <RootNavigator />
+        </LanguageProvider>
       </QueryClientProvider>
     </>
   );
