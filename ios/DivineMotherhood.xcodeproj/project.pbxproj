@@ -297,6 +297,7 @@
 				DEVELOPMENT_TEAM = S9CPCG892Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DivineMotherhood/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Divine Motherhood";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -308,8 +309,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = DivineMotherhood;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.divinemotherhood;
+				PRODUCT_NAME = "Divine Motherhood";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -327,6 +328,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S9CPCG892Y;
 				INFOPLIST_FILE = DivineMotherhood/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Divine Motherhood";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -338,8 +340,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = DivineMotherhood;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.divinemotherhood;
+				PRODUCT_NAME = "Divine Motherhood";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

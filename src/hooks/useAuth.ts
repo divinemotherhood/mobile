@@ -13,6 +13,7 @@ export const useGoogleAuth = () => {
       await setAuth({
         user: data.user ?? null,
         accessToken: data.accessToken ?? data.idToken,
+        firebaseUser: data.firebaseUser ?? null,
       });
     },
   });

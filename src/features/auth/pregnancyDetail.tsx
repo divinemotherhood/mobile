@@ -1,5 +1,5 @@
 import { colors } from "@design/colors";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "@assets/images/logo.svg";
 import { ms } from "@design/responsive";
@@ -12,6 +12,8 @@ import SegmentedTabs from "@shared/components/SegmentedTabs";
 import { useState } from "react";
 import SelectableChips from "@shared/components/SelectableChips";
 import { useNavigation } from "@react-navigation/native";
+import DatePicker from "react-native-date-picker";
+import { updatePregnancyDetailApi } from "../../api/endpoints/auth.api";
 
 const OPTIONS = [
     { id: "1", label: "Gestational Diabetes" },
@@ -25,6 +27,8 @@ const PregencyDetail = () => {
     const [value, setValue] = useState("yes");
     const [selected, setSelected] = useState<string[]>([]);
     const navigation = useNavigation<any>();
+    const [show, setShow] = useState(false);
+    const [lastPeriodDate, setLastPeriodDate] = useState<Date | null>(new Date());
 
     const handleSelect = (id: string) => {
         setSelected((prev) =>
@@ -34,41 +38,82 @@ const PregencyDetail = () => {
         );
     };
 
+    const formatDate = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+
+    const onSubmit = async () => {
+        const payload = {
+            is_first_baby: value === "yes" ? true : false,
+            lmp_date: lastPeriodDate ? formatDate(lastPeriodDate) : null,
+            complications: selected.length > 0 ? selected : [],
+        }
+        await updatePregnancyDetailApi(payload).then(() => {
+            navigation.navigate('Home');
+        }).catch((err) => {
+            console.log("Error updating pregnancy detail: ", err);
+        });
+    }
+
     return (
-        <SafeAreaView style={Styles.container}>
-            <View style={Styles.main}>
-                <Logo style={Styles.logo} />
-                <AppText style={Styles.pregnancyText}>Pregnancy <AppText style={Styles.detailsText}>Details</AppText></AppText>
-                <AppText style={Styles.tellUsText}>Tell us a bit more about your journey to</AppText>
-                <AppText style={[Styles.tellUsText, { marginTop: 0 }]}>personalize your experience</AppText>
-            </View>
-            <View style={Styles.centerView}>
-                <AppText style={Styles.title}>Is this your first baby?</AppText>
-                <SegmentedTabs
-                    options={[
-                        { label: "Yes", value: "yes" },
-                        { label: "No", value: "no" },
-                    ]}
-                    selected={value}
-                    onChange={setValue}
-                    style={{ marginTop: ms(12) }}
-                />
-                <AppText style={Styles.title}>What is your last period (LMP) date?</AppText>
-                <InputField placeholder="mm/dd/yyyy" />
-                <AppText style={Styles.title}>Are you experiencing any complications? (Optional)</AppText>
-                <View style={Styles.chipView}>
-                    <SelectableChips
-                        data={OPTIONS}
-                        selectedIds={selected}
-                        onSelect={handleSelect}
-                    />
+        <>
+            <DatePicker
+                modal
+                open={show}
+                mode="date"
+                date={lastPeriodDate || new Date()}
+                onDateChange={(date) => {
+                    setLastPeriodDate(date);
+                }}
+                onConfirm={(date) => {
+                    setLastPeriodDate(date);
+                    setShow(false);
+                }}
+                onCancel={() => {
+                    setShow(false);
+                }}
+            />
+            <SafeAreaView style={Styles.container}>
+                <View style={Styles.main}>
+                    <Logo style={Styles.logo} />
+                    <AppText style={Styles.pregnancyText}>Pregnancy <AppText style={Styles.detailsText}>Details</AppText></AppText>
+                    <AppText style={Styles.tellUsText}>Tell us a bit more about your journey to</AppText>
+                    <AppText style={[Styles.tellUsText, { marginTop: 0 }]}>personalize your experience</AppText>
                 </View>
-                <Button title="Continue" onPress={() => {
-                    navigation.navigate('Home');
-                }} style={Styles.button} />
-                <AppText style={Styles.bottomText}>Your details are secured and will not be shared by anyone</AppText>
-            </View>
-        </SafeAreaView>
+                <View style={Styles.centerView}>
+                    <AppText style={Styles.title}>Is this your first baby?</AppText>
+                    <SegmentedTabs
+                        options={[
+                            { label: "Yes", value: "yes" },
+                            { label: "No", value: "no" },
+                        ]}
+                        selected={value}
+                        onChange={setValue}
+                        style={{ marginTop: ms(6) }}
+                    />
+                    <AppText style={Styles.title}>What is your last period (LMP) date?</AppText>
+                    <TouchableOpacity onPress={() => setShow(true)}>
+                        <InputField placeholder="mm/dd/yyyy" editable={false} onPress={() => setShow(true)} value={lastPeriodDate ? lastPeriodDate.toLocaleDateString() : undefined} />
+                    </TouchableOpacity>
+                    <AppText style={Styles.title}>Are you experiencing any complications? (Optional)</AppText>
+                    <View style={Styles.chipView}>
+                        <SelectableChips
+                            data={OPTIONS}
+                            selectedIds={selected}
+                            onSelect={handleSelect}
+                        />
+                    </View>
+                    <Button title="Continue" onPress={() => {
+                        onSubmit();
+                        navigation.navigate('Home');
+                    }} style={Styles.button} />
+                    <AppText style={Styles.bottomText}>Your details are secured and will not be shared by anyone</AppText>
+                </View>
+            </SafeAreaView>
+        </>
     )
 }
 
@@ -119,6 +164,6 @@ const Styles = StyleSheet.create({
         marginTop: ms(8),
     },
     chipView: {
-        marginTop: ms(12),
+        marginTop: ms(6),
     }
 });

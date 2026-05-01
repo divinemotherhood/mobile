@@ -6,20 +6,23 @@ type AuthState = {
     isAuthenticated: boolean;
     setAuth: (data: any) => void;
     logout: () => void;
+    firebaseUser: any | null;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     accessToken: null,
     isAuthenticated: false,
+    firebaseUser: null,
 
     setAuth: (data) => {
-        const { accessToken, user } = data;
+        const { accessToken, user, firebaseUser } = data;
 
         set({
             user,
             accessToken,
             isAuthenticated: true,
+            firebaseUser,
         });
     },
 
@@ -28,6 +31,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             user: null,
             accessToken: null,
             isAuthenticated: false,
+            firebaseUser: null,
         });
     },
 }));

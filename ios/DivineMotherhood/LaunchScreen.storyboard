@@ -17,18 +17,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="KDc-xj-idh">
-                                <rect key="frame" x="0.0" y="124" width="440" height="764"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="dL4-sg-Io7">
+                                <rect key="frame" x="100" y="414" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="h6D-QX-0vm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="KDc-xj-idh" firstAttribute="top" secondItem="h6D-QX-0vm" secondAttribute="top" id="2ZS-7j-5L9"/>
-                            <constraint firstItem="h6D-QX-0vm" firstAttribute="bottom" secondItem="KDc-xj-idh" secondAttribute="bottom" id="JYB-O2-kvJ"/>
-                            <constraint firstItem="h6D-QX-0vm" firstAttribute="trailing" secondItem="KDc-xj-idh" secondAttribute="trailing" id="Xem-Db-Pi5"/>
-                            <constraint firstItem="KDc-xj-idh" firstAttribute="leading" secondItem="h6D-QX-0vm" secondAttribute="leading" id="n7r-cz-tL5"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -37,7 +32,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Splash" width="383" height="783"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

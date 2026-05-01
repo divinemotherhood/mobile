@@ -1,4 +1,4 @@
-import { getApp, getApps, initializeApp } from '@react-native-firebase/app';
+import firebase, { getApp, getApps, initializeApp } from '@react-native-firebase/app';
 import {
   getAuth,
   getIdToken,
@@ -81,6 +81,7 @@ export const signInWithGoogle = async () => {
     ...authData,
     user,
     idToken: firebaseIdToken,
+    firebaseUser: signInResult?.data?.user ?? null,
   };
 };
 

@@ -1,5 +1,7 @@
+import { Platform } from "react-native";
+
 export const Fonts = {
-    LarkenMedium: 'LarkenDEMO-Medium',
-    InstrumentSansRegular: 'InstrumentSansCondensed-Regular',
-    InstrumentSansMedium: 'InstrumentSansSemiCondensed-Medium',
+    LarkenMedium: Platform.OS == 'android' ? 'Larken-Medium' : 'LarkenDEMO-Medium',
+    InstrumentSansRegular: Platform.OS == 'android' ? 'InstrumentSans-Regular' : 'InstrumentSansCondensed-Regular',
+    InstrumentSansMedium: Platform.OS == 'android' ? 'InstrumentSans-Medium' : 'InstrumentSansSemiCondensed-Medium',
 }
