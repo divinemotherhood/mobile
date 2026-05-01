@@ -1,5 +1,5 @@
 import { colors } from "@design/colors";
-import { AppState, Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { AppState, Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logo from "@assets/images/logo.svg";
 import { ms } from "@design/responsive";
@@ -139,106 +139,108 @@ const PersonalizeProfile = () => {
 
     return (
         <SafeAreaView style={Styles.container}>
-            <View style={Styles.main}>
-                <Logo style={Styles.logo} />
-                <AppText style={Styles.personalizeText}>
-                    {t("personalizeTitle")} <AppText style={Styles.profileText}>{t("personalizeProfile")}</AppText>
-                </AppText>
-                {
-                    profile ?
-                        <TouchableOpacity onPress={() => onTakePhoto()}>
-                            <Image source={{ uri: profile }} style={{ width: ms(100), height: ms(100), borderRadius: ms(50), marginTop: ms(23) }} />
-                            <CameraIconActive style={Styles.cameraActive} />
-                        </TouchableOpacity>
-                        :
-                        <CameraIcon style={Styles.cameraIcon} />
-                }
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={Styles.main}>
+                    <Logo style={Styles.logo} />
+                    <AppText style={Styles.personalizeText}>
+                        {t("personalizeTitle")} <AppText style={Styles.profileText}>{t("personalizeProfile")}</AppText>
+                    </AppText>
+                    {
+                        profile ?
+                            <TouchableOpacity onPress={() => onTakePhoto()}>
+                                <Image source={{ uri: profile }} style={{ width: ms(100), height: ms(100), borderRadius: ms(50), marginTop: ms(23) }} />
+                                <CameraIconActive style={Styles.cameraActive} />
+                            </TouchableOpacity>
+                            :
+                            <CameraIcon style={Styles.cameraIcon} />
+                    }
 
-            </View>
-            <View style={Styles.centerView}>
-                <AppText style={Styles.title}>{t("personalizeName")}</AppText>
-                <Controller
-                    control={control}
-                    name="full_name"
-                    rules={{
-                        required: "Name is required",
-                    }}
-                    render={({ field: { onChange, value } }) => (
-                        <InputField
-                            placeholder={t("personalizeName")}
-                            defaultValue={user?.givenName || ""}
-                            value={value}
-                            onChangeText={onChange} />
-                    )}
-                />
-                {errors?.full_name?.message && <AppText style={Styles.error}>{errors?.full_name?.message}</AppText>}
-                <AppText style={[Styles.title, { marginTop: ms(20) }]}>{t("personalizeEmail")}</AppText>
-                <Controller
-                    control={control}
-                    name="email"
-                    rules={{
-                        required: "Email is required",
-                    }}
-                    render={({ field: { onChange, value } }) => (
-                        <InputField
-                            placeholder={t("personalizeEmail")}
-                            defaultValue={user?.email || ""}
-                            value={value}
-                            onChangeText={onChange}
-                            editable={false} />
-                    )}
-                />
-                {errors?.email?.message && <AppText style={Styles.error}>{errors?.email?.message}</AppText>}
-                <AppText style={[Styles.title, { marginTop: ms(20) }]}>{t("personalizeWhatsapp")}</AppText>
-                <CountryPicker
-                    show={show}
-                    lang="en"
-                    pickerButtonOnPress={(country) => {
-                        setCountryCode(country);
-                        setShow(false);
-                    }}
-                    onBackdropPress={() => setShow(false)}
-                    itemTemplate={({ item, name, onPress }) => (
-                        <TouchableOpacity onPress={onPress} style={Styles.countryPickerRow}>
-                            <Flag code={item.code.toUpperCase()} size={24} />
-                            <AppText style={Styles.countryPickerDialCode}>{item.dial_code}</AppText>
-                            <AppText style={Styles.countryPickerName}>{name}</AppText>
-                        </TouchableOpacity>
-                    )}
-                />
-                <View style={Styles.mobileContainer}>
-                    <TouchableOpacity onPress={() => setShow(true)} style={Styles.countryCodeContainer}>
-                        <Flag code={(countryCode?.code || "IN").toUpperCase()} size={24} />
-                        <AppText style={Styles.countryCode}>{countryCode?.dial_code || "+91"}</AppText>
-                        <DownArrowIcon style={Styles.downArrowIcon} />
-                    </TouchableOpacity>
+                </View>
+                <View style={Styles.centerView}>
+                    <AppText style={Styles.title}>{t("personalizeName")}</AppText>
                     <Controller
                         control={control}
-                        name="whatsapp_number"
+                        name="full_name"
                         rules={{
-                            required: "WhatsApp number is required",
-                            pattern: {
-                                value: /^[0-9]*$/,
-                                message: "Only numeric values are allowed",
-                            },
-                            maxLength: 10,
+                            required: "Name is required",
                         }}
                         render={({ field: { onChange, value } }) => (
                             <InputField
-                                style={{ flex: 1 }}
-                                placeholder={t("personalizeWhatsappPlaceholder")}
-                                value={value ? value.toString() : undefined}
-                                onChangeText={onChange}
-                                keyboardType="phone-pad"
-                                maxLength={10}
-                            />
+                                placeholder={t("personalizeName")}
+                                defaultValue={user?.givenName || ""}
+                                value={value}
+                                onChangeText={onChange} />
                         )}
                     />
+                    {errors?.full_name?.message && <AppText style={Styles.error}>{errors?.full_name?.message}</AppText>}
+                    <AppText style={[Styles.title, { marginTop: ms(20) }]}>{t("personalizeEmail")}</AppText>
+                    <Controller
+                        control={control}
+                        name="email"
+                        rules={{
+                            required: "Email is required",
+                        }}
+                        render={({ field: { onChange, value } }) => (
+                            <InputField
+                                placeholder={t("personalizeEmail")}
+                                defaultValue={user?.email || ""}
+                                value={value}
+                                onChangeText={onChange}
+                                editable={false} />
+                        )}
+                    />
+                    {errors?.email?.message && <AppText style={Styles.error}>{errors?.email?.message}</AppText>}
+                    <AppText style={[Styles.title, { marginTop: ms(20) }]}>{t("personalizeWhatsapp")}</AppText>
+                    <CountryPicker
+                        show={show}
+                        lang="en"
+                        pickerButtonOnPress={(country) => {
+                            setCountryCode(country);
+                            setShow(false);
+                        }}
+                        onBackdropPress={() => setShow(false)}
+                        itemTemplate={({ item, name, onPress }) => (
+                            <TouchableOpacity onPress={onPress} style={Styles.countryPickerRow}>
+                                <Flag code={item.code.toUpperCase()} size={24} />
+                                <AppText style={Styles.countryPickerDialCode}>{item.dial_code}</AppText>
+                                <AppText style={Styles.countryPickerName}>{name}</AppText>
+                            </TouchableOpacity>
+                        )}
+                    />
+                    <View style={Styles.mobileContainer}>
+                        <TouchableOpacity onPress={() => setShow(true)} style={Styles.countryCodeContainer}>
+                            <Flag code={(countryCode?.code || "IN").toUpperCase()} size={24} />
+                            <AppText style={Styles.countryCode}>{countryCode?.dial_code || "+91"}</AppText>
+                            <DownArrowIcon style={Styles.downArrowIcon} />
+                        </TouchableOpacity>
+                        <Controller
+                            control={control}
+                            name="whatsapp_number"
+                            rules={{
+                                required: "WhatsApp number is required",
+                                pattern: {
+                                    value: /^[0-9]*$/,
+                                    message: "Only numeric values are allowed",
+                                },
+                                maxLength: 10,
+                            }}
+                            render={({ field: { onChange, value } }) => (
+                                <InputField
+                                    style={{ flex: 1 }}
+                                    placeholder={t("personalizeWhatsappPlaceholder")}
+                                    value={value ? value.toString() : undefined}
+                                    onChangeText={onChange}
+                                    keyboardType="phone-pad"
+                                    maxLength={10}
+                                />
+                            )}
+                        />
+                    </View>
+                    {errors?.whatsapp_number?.message && <AppText style={Styles.error}>{errors?.whatsapp_number?.message}</AppText>}
+                    <Button title={t("personalizeVerify")} onPress={handleSubmit(onSubmit)} style={Styles.button} />
+                    <AppText style={Styles.bottomText}>{t("personalizeSecureText")}</AppText>
                 </View>
-                {errors?.whatsapp_number?.message && <AppText style={Styles.error}>{errors?.whatsapp_number?.message}</AppText>}
-                <Button title={t("personalizeVerify")} onPress={handleSubmit(onSubmit)} style={Styles.button} />
-                <AppText style={Styles.bottomText}>{t("personalizeSecureText")}</AppText>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
